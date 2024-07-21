@@ -89,3 +89,94 @@
                 Menu().
 
             fim
+-> vazio Menu()
+    inicio
+
+        exibir("O que deseja fazer?").
+        exibir("1 - Soma").
+        exibir("2 - Subtração").
+        exibir("3 - Divisão").
+        exibir("4 - Multiplicação").
+        exibir("5 - Sair").
+
+        exibir("-------------").
+        exibir("Selecione uma opção: ").
+        numero res := ler().
+
+        se (res = 1)
+            inicio
+                Soma().
+            fim
+        se senao (res = 2)
+             inicio
+                Subtracao().
+            fim
+        se senao (res = 3)
+            inicio
+                Divisao().
+            fim
+        se senao (res = 4)
+            inicio
+                Multiplicacao().
+            fim
+        senao inicio retorne fim
+    fim
+
+        vazio Soma()
+            inicio
+
+                exibir("Primeiro valor: ").
+                numero v1 := ler().
+                exibir("Segundo valor: ").
+                numero v2 := ler().
+
+                numero soma := v1 + v2.
+                exibir($"O resultado da soma é %d", &soma).
+                Menu().
+
+            fim
+
+        vazio Subtracao()
+            inicio
+
+                exibir("Primeiro valor: ").
+                numero v1 := ler().
+                exibir("Segundo valor: ").
+                numero v2 := ler().
+
+                numero subtracao := v1 - v2.
+
+                exibir($"O resultado da subtração é %d", &subtracao).
+                Menu().
+
+            fim
+
+        vazio Divisao()
+            inicio
+
+                exibir("Primeiro valor: ").
+                numero v1 := ler().
+                exibir("Segundo valor: ").
+                numero v2 := ler().
+
+                numero divisao := v1 / v2.
+
+                se (v2 = 0) exibir("O segundo valor não pode ser zero!").
+                senao exibir($"O resultado da divisão é %d", &divisao).
+                Menu().
+
+            fim
+
+        vazio Multiplicacao()
+            inicio
+
+                exibir("Primeiro valor: ").
+                numero v1 := ler().
+                exibir("Segundo valor: ").
+                numero v2 := ler().
+
+                numero multiplicacao := v1 * v2.
+                exibir($"O resultado da multiplicação é %d", &multiplicacao).
+                Menu().
+
+            fim
