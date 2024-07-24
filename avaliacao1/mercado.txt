@@ -12,7 +12,7 @@
         tira_manchas := falso.
         numero cupons.
         cupons = 0.
-        para cada (vetor[30] item:pedidos)
+        para cada (vetor caractere[30] item:pedidos)
             inicio
                 se (item="detergente")
                     detergente := verdadeiro.
