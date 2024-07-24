@@ -1,0 +1,69 @@
+#PRODUTOS PARTICIPANTES - OMO: detergente, desinfetante, sabonete, tira manchas
+
+-> def numero promocao_omo (pedidos)
+    inicio
+    booleano detergente.
+    booleano desinfetante.
+    booleano sabonete.
+    booleano tira_manchas.
+    detergente := falso.
+    desinfetante := falso.
+    sabonete := falso.
+    tira_manchas := falso.
+    numero cupons.
+    cupons = 0.
+    para item in pedidos:
+        if (item="detergente"):
+            detergente := verdadeiro
+        elif (item="desinfetante"):
+            desinfetante := verdadeiro
+        elif(item="sabonete"):
+            sabonete := verdadeiro
+        elif (item="tira manchas"):
+            tira_manchas := verdadeiro
+    if (detergente e sabonete):
+        cupons:=cupons+3
+    if (desinfetante ou tira_manchas):
+        cupons:=cupons+1
+    retorne cupons
+    fim
+
+exibir(promocao_omo(pedidos))
+
+
+
+-------------------------------------------------------------------------
+
+
+AGORA EM PYTHON:
+#PRODUTOS PARTICIPANTES - OMO
+#detergente, desinfetante, sabonete, tira manchas
+
+
+
+pedidos = ["detergente", "desinfetante", "tira_manchas", "sabonete", "oleo", "chocolate"]
+
+
+def promocao_omo (pedidos):
+    detergente = False
+    desinfetante = False
+    sabonete = False
+    tira_manchas = False
+    cupons = 0
+    for item in pedidos:
+        if (item=="detergente"):
+            detergente = True
+        elif (item=="desinfetante"):
+            desinfetante = True
+        elif(item=="sabonete"):
+            sabonete = True
+        elif (item=="tira manchas"):
+            tira_manchas = True
+    if (detergente and sabonete):
+        cupons+=3
+    if (desinfetante or tira_manchas):
+        cupons +=1
+    return cupons
+
+print(promocao_omo(pedidos))
+
