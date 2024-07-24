@@ -1,34 +1,44 @@
 #PRODUTOS PARTICIPANTES - OMO: detergente, desinfetante, sabonete, tira manchas
 
--> def numero promocao_omo (pedidos)
+-> vazio numero promocao_omo (pedidos)
     inicio
-    booleano detergente.
-    booleano desinfetante.
-    booleano sabonete.
-    booleano tira_manchas.
-    detergente := falso.
-    desinfetante := falso.
-    sabonete := falso.
-    tira_manchas := falso.
-    numero cupons.
-    cupons = 0.
-    para item in pedidos:
-        if (item="detergente"):
-            detergente := verdadeiro
-        elif (item="desinfetante"):
-            desinfetante := verdadeiro
-        elif(item="sabonete"):
-            sabonete := verdadeiro
-        elif (item="tira manchas"):
-            tira_manchas := verdadeiro
-    if (detergente e sabonete):
-        cupons:=cupons+3
-    if (desinfetante ou tira_manchas):
-        cupons:=cupons+1
-    retorne cupons
+        booleano detergente.
+        booleano desinfetante.
+        booleano sabonete.
+        booleano tira_manchas.
+        detergente := falso.
+        desinfetante := falso.
+        sabonete := falso.
+        tira_manchas := falso.
+        numero cupons.
+        cupons = 0.
+        para cada (vetor[30] item:pedidos)
+            inicio
+                se (item="detergente")
+                    detergente := verdadeiro.
+                senao se (item="desinfetante")
+                    desinfetante := verdadeiro.
+                senao se (item="sabonete")
+                    sabonete := verdadeiro
+                senao se (item="tira manchas")
+                    tira_manchas := verdadeiro.
+            fim
+        se (detergente e sabonete)
+            inicio
+                cupons := cupons+3.
+            fim
+        se (desinfetante ou tira_manchas)
+            inicio
+                cupons := cupons+1.
+            fim
+        exibir(cupons).
+        retorne.
     fim
 
-exibir(promocao_omo(pedidos))
+
+vetor[10] pedidos := "sabao", "sabonete", "refrigerante", "tira manchas", "detergente", "desinfetante".
+
+promocao_omo(pedidos).
 
 
 
@@ -66,4 +76,3 @@ def promocao_omo (pedidos):
     return cupons
 
 print(promocao_omo(pedidos))
-
