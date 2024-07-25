@@ -1,0 +1,41 @@
+# Nome do código: Operações e Comparações em Caju
+
+-> numero principal() inicio
+    caractere letra := 'A'. # Variável caractere
+    numero numeroReal := 10,5. # Variável número real
+
+    # Laço de repetição para
+    para (numero i := 0; i < 5; i+1) inicio
+        exibir("Iteração " | i).
+
+        # Operações com operadores
+        numero subtracao := numeroReal - i.
+        numero multiplicacao := numeroReal * i.
+        numero divisao := numeroReal / (i + 1). # Evitar divisão por zero
+
+        exibir("Subtração: " | subtracao).
+        exibir("Multiplicação: " | multiplicacao).
+        exibir("Divisão: " | divisao).
+
+        # Comparações
+        if (subtracao > 0) inicio
+            exibir("subtração é maior que 0").
+        fim
+
+        if (multiplicacao >= 0) inicio
+            exibir("multiplicação é maior ou igual a 0").
+        fim
+
+        if (divisao < numeroReal) inicio
+            exibir("divisão é menor que" | numeroReal).
+        fim
+
+        if (!(divisao >= numeroReal)) inicio # Negação
+            exibir("divisão não é maior ou igual a " | numeroReal).
+        fim
+    fim
+
+    exibir("caractere armazenado na variável 'letra': " | letra).
+
+    returne 0;
+fim
