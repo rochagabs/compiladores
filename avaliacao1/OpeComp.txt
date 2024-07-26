@@ -1,7 +1,6 @@
 # Nome do código: Operações e Comparações em Caju
 
 -> numero principal() inicio
-    caractere letra := 'A'. # Variável caractere
     numero numeroReal := 10,5. # Variável número real
 
     # Laço de repetição para
@@ -37,5 +36,7 @@
 
     exibir("caractere armazenado na variável 'letra': " | letra).
 
-    returne 0;
+    retorne ;
 fim
+
+principal().
