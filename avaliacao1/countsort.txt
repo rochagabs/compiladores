@@ -1,0 +1,117 @@
+{countsort}
+
+
+-> vazio main()
+inicio
+    vet numero[5] lista := [9,2,4,1,6].
+    countsort(lista).
+
+    para cada (numero n : lista)
+    inicio
+        exibir(n).
+    fim
+
+fim
+
+
+numero contar(vetor numero vet)
+inicio
+    numero t := 0.
+    para cada (numero n : vet)
+    inicio
+        t := t + 1.
+    fim
+
+    retorne t.
+
+fim
+
+
+vazio countsort(vetor numero vet)
+inicio
+    tamanho := contar(vet).
+    vetor saida[tamanho].
+    vetor count[10].
+
+    para (numero i := 0; i < tamanho; i+1 )
+    inicio
+        saida[i] := 0.
+    fim 
+
+    para (numero i := 0; i < 10; i+1)
+    inicio
+        count[i] := 0.
+    fim
+
+    para (numero i := 0; i < tamanho; i+1)
+    inicio
+        count[vet[i]] := count[vet[i]] + 1.
+    fim
+
+    para (numero i := 1; i < 10; i+1)
+    inicio
+        count[i] := count[i] + count[i-1].
+    fim
+
+    numero indice := tamanho - 1.
+    enquanto(indice>=0)
+    inicio
+        saida[count[vet[indice]]-1] := vet[indice].
+        count[vet[indice]] := count[vet[indice]] - 1.
+        indice := indice - 1.
+
+    fim
+
+    para (numero i := 0; i < tamanho; i+1)
+    inicio
+        vet[i] := saida[i].
+    fim
+
+
+fim
+
+-----------------------------------------------------------------------------
+original
+
+
+contador=0
+
+def contar(array):
+    saida=0
+    for i in array:
+        saida = saida +1
+    return saida
+
+
+
+def countingSort(array):
+    tamanho = contar(array)
+    saida = [0] * tamanho
+
+    
+    count = [0] * 10
+
+   
+    for i in range(0, tamanho):
+        count[array[i]] = count[array[i]] + 1
+
+    for i in range(1, 10):
+        count[i] = count[i] + count[i - 1]
+
+
+   
+    indice= tamanho - 1
+    while indice>= 0:
+        saida[count[array[indice]] - 1] = array[indice]
+        count[array[indice]] = count[array[indice]] - 1
+        indice= indice- 1
+
+   
+    for i in range(0, tamanho):
+        array[i] = saida[i]
+
+
+data = [4, 2, 2, 8, 3, 3, 1]
+countingSort(data)
+
+print(data)
