@@ -2,7 +2,11 @@
 -> vazio main()
 inicio
     vetor numero[5] lista.
-    lista := [9,2,4,1,6].
+    lista[0] := ler()
+    lista[1] := ler()
+    lista[2] := ler()
+    lista[3] := ler()
+    lista[4] := ler()
     countsort(lista).
 
     para cada (numero n : lista)
