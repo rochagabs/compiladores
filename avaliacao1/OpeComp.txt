@@ -1,6 +1,6 @@
 # Nome do código: Operações e Comparações em Caju
 
--> numero principal() inicio
+-> vazio principal() inicio
     numero numeroReal . # Variável número real
     numero subtracao .
     numero multiplicacao .
@@ -13,9 +13,9 @@
         exibir("Iteração " | i).
 
         # Operações com operadores
-         subtracao := numeroReal - i.
-         multiplicacao := numeroReal * i.
-         divisao := numeroReal / (i + 1). # Evitar divisão por zero
+        subtracao := numeroReal - i.
+        multiplicacao := numeroReal * i.
+        divisao := numeroReal / (i + 1). # Evitar divisão por zero
 
         exibir("Subtração: " | subtracao).
         exibir("Multiplicação: " | multiplicacao).
@@ -34,7 +34,7 @@
             exibir("divisão é menor que" | numeroReal).
         fim
 
-        if (!(divisao >= numeroReal)) inicio # Negação
+        if (nao(divisao >= numeroReal)) inicio # Negação
             exibir("divisão não é maior ou igual a " | numeroReal).
         fim
     fim
