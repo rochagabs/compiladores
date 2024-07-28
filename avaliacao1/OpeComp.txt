@@ -1,16 +1,21 @@
 # Nome do código: Operações e Comparações em Caju
 
 -> numero principal() inicio
-    numero numeroReal := 10,5. # Variável número real
+    numero numeroReal . # Variável número real
+    numero subtracao .
+    numero multiplicacao .
+    numero divisao .
+    numero i .
+    numeroReal := 10,5.
 
     # Laço de repetição para
-    para (numero i := 0; i < 5; i+1) inicio
+    para (i := 0; i < 5; i+1) inicio
         exibir("Iteração " | i).
 
         # Operações com operadores
-        numero subtracao := numeroReal - i.
-        numero multiplicacao := numeroReal * i.
-        numero divisao := numeroReal / (i + 1). # Evitar divisão por zero
+         subtracao := numeroReal - i.
+         multiplicacao := numeroReal * i.
+         divisao := numeroReal / (i + 1). # Evitar divisão por zero
 
         exibir("Subtração: " | subtracao).
         exibir("Multiplicação: " | multiplicacao).
@@ -34,7 +39,5 @@
         fim
     fim
 
-    exibir("caractere armazenado na variável 'letra': " | letra).
-
-    retorne.
+    retorne .
 fim
