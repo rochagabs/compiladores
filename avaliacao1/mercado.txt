@@ -1,45 +1,62 @@
 #PRODUTOS PARTICIPANTES - OMO: detergente, desinfetante, sabonete, tira manchas
 
--> vazio numero promocao_omo (pedidos)
+numero promocao_omo (vetor pedidos[6][15])
+inicio
+    booleano detergente.
+    booleano desinfetante.
+    booleano sabonete.
+    booleano tira_manchas.
+    detergente := falso.
+    desinfetante := falso.
+    sabonete := falso.
+    tira_manchas := falso.
+    numero cupons.
+    cupons = 0.
+    para cada (vetor caractere[15] item:pedidos)
     inicio
-        booleano detergente.
-        booleano desinfetante.
-        booleano sabonete.
-        booleano tira_manchas.
-        detergente := falso.
-        desinfetante := falso.
-        sabonete := falso.
-        tira_manchas := falso.
-        numero cupons.
-        cupons = 0.
-        para cada (vetor caractere[30] item:pedidos)
-            inicio
-                se (item="detergente")
-                    detergente := verdadeiro.
-                senao se (item="desinfetante")
-                    desinfetante := verdadeiro.
-                senao se (item="sabonete")
-                    sabonete := verdadeiro
-                senao se (item="tira manchas")
-                    tira_manchas := verdadeiro.
-            fim
-        se (detergente e sabonete)
-            inicio
-                cupons := cupons+3.
-            fim
-        se (desinfetante ou tira_manchas)
-            inicio
-                cupons := cupons+1.
-            fim
-        exibir(cupons).
-        retorne.
+        se (item="detergente")
+        inicio
+            detergente := verdadeiro.
+        fim
+        senao se (item="desinfetante")
+        inicio
+            desinfetante := verdadeiro.
+        fim
+        senao se (item="sabonete")
+        inicio
+            sabonete := verdadeiro
+        fim
+        senao se (item="tira manchas")
+        inicio
+            tira_manchas := verdadeiro.
+        fim
     fim
+    se (detergente e sabonete)
+    inicio
+        cupons := cupons+3.
+    fim
+    se (desinfetante ou tira_manchas)
+    inicio
+        cupons := cupons+1.
+    fim
+        retorne cupons.
+fim
 
 
-vetor[10] pedidos := "sabao", "sabonete", "refrigerante", "tira manchas", "detergente", "desinfetante".
-
-promocao_omo(pedidos).
-
+-> vazio principal ()
+inicio
+    vetor caractere[6][15] pedidos.
+    pedidos[0]:= "sabao".
+    pedidos[1]:= "sabonete". 
+    pedidos[2]:="refrigerante".
+    pedidos[3]:="tira manchas".
+    pedidos[4]:= "detergente".
+    pedidos[5]:= "desinfetante".
+    exibir ("quantidade de cupons: ").
+    numero resultado_cupons.
+    resultado_cupons:= promocao_omo(pedidos).
+    exibir(resultado_cupons).
+fim
 
 
 -------------------------------------------------------------------------
