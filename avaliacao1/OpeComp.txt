@@ -1,6 +1,7 @@
-# Nome do código: Operações e Comparações em Caju
+
 
 -> vazio principal() inicio
+    # Nome do código: Operações e Comparações em Caju
     numero numeroReal . # Variável número real
     numero subtracao .
     numero multiplicacao .
