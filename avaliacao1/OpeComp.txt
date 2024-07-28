@@ -36,7 +36,5 @@
 
     exibir("caractere armazenado na variável 'letra': " | letra).
 
-    retorne ;
+    retorne.
 fim
-
-principal().

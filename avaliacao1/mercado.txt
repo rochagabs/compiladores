@@ -1,7 +1,8 @@
-#PRODUTOS PARTICIPANTES - OMO: detergente, desinfetante, sabonete, tira manchas
 
-numero promocao_omo (vetor pedidos[6][15])
+
+numero promocao_omo (vetor pedidos)
 inicio
+    #PRODUTOS PARTICIPANTES - OMO: detergente, desinfetante, sabonete, tira manchas
     booleano detergente.
     booleano desinfetante.
     booleano sabonete.

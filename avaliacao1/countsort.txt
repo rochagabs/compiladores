@@ -1,22 +1,21 @@
-{countsort}
-
 
 -> vazio main()
 inicio
-    vet numero[5] lista := [9,2,4,1,6].
+    vetor numero[5] lista.
+    lista := [9,2,4,1,6].
     countsort(lista).
 
     para cada (numero n : lista)
     inicio
         exibir(n).
     fim
-
 fim
 
 
 numero contar(vetor numero vet)
 inicio
-    numero t := 0.
+    numero t.
+    t := 0.
     para cada (numero n : vet)
     inicio
         t := t + 1.
@@ -29,6 +28,11 @@ fim
 
 vazio countsort(vetor numero vet)
 inicio
+    {codigo
+    para
+    countsort}
+
+    numero tamanho.
     tamanho := contar(vet).
     vetor saida[tamanho].
     vetor count[10].
