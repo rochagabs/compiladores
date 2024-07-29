@@ -58,39 +58,3 @@ inicio
     resultado_cupons:= promocao_omo(pedidos).
     exibir(resultado_cupons).
 fim
-
-
--------------------------------------------------------------------------
-
-
-AGORA EM PYTHON:
-#PRODUTOS PARTICIPANTES - OMO
-#detergente, desinfetante, sabonete, tira manchas
-
-
-
-pedidos = ["detergente", "desinfetante", "tira_manchas", "sabonete", "oleo", "chocolate"]
-
-
-def promocao_omo (pedidos):
-    detergente = False
-    desinfetante = False
-    sabonete = False
-    tira_manchas = False
-    cupons = 0
-    for item in pedidos:
-        if (item=="detergente"):
-            detergente = True
-        elif (item=="desinfetante"):
-            desinfetante = True
-        elif(item=="sabonete"):
-            sabonete = True
-        elif (item=="tira manchas"):
-            tira_manchas = True
-    if (detergente and sabonete):
-        cupons+=3
-    if (desinfetante or tira_manchas):
-        cupons +=1
-    return cupons
-
-print(promocao_omo(pedidos))

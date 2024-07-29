@@ -16,7 +16,7 @@ inicio
     lista[4] := 1
     countsort(lista).
 
-    ordenado := estaOrdenado(lista,contar(lista)).
+    ordenado := estaOrdenado(lista|contar(lista)).
     exibir(ordenado).
 
     para cada (numero n : lista)
@@ -26,7 +26,7 @@ inicio
 fim
 
 
-caractere estaOrdenado(vetor numero vet, numero tamanho)
+caractere estaOrdenado(vetor numero vet| numero tamanho)
 inicio
     caractere ord.
     ord := 's'.
@@ -102,51 +102,6 @@ inicio
         vet[i] := saida[i].
     fim
 
+retorne .
 
 fim
-
------------------------------------------------------------------------------
-original
-
-
-contador=0
-
-def contar(array):
-    saida=0
-    for i in array:
-        saida = saida +1
-    return saida
-
-
-
-def countingSort(array):
-    tamanho = contar(array)
-    saida = [0] * tamanho
-
-    
-    count = [0] * 10
-
-   
-    for i in range(0, tamanho):
-        count[array[i]] = count[array[i]] + 1
-
-    for i in range(1, 10):
-        count[i] = count[i] + count[i - 1]
-
-
-   
-    indice= tamanho - 1
-    while indice>= 0:
-        saida[count[array[indice]] - 1] = array[indice]
-        count[array[indice]] = count[array[indice]] - 1
-        indice= indice- 1
-
-   
-    for i in range(0, tamanho):
-        array[i] = saida[i]
-
-
-data = [4, 2, 2, 8, 3, 3, 1]
-countingSort(data)
-
-print(data)
