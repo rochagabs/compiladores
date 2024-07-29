@@ -2,18 +2,18 @@
 -> vazio main()
 inicio
     vetor numero[5] lista.
-    vetor nome[10].
-    char ordenado.
-    exibir("digite seu nome: ")
+    vetor caractere[10] nome.
+    caractere ordenado.
+    exibir("digite seu nome: ").
     nome := ler().    
 
     exibir(nome).
     exibir("vamos ordenar uma lista para voce").
-    lista[0] := 5
-    lista[1] := 12
-    lista[2] := 9
-    lista[3] := 3
-    lista[4] := 1
+    lista[0] := 5.
+    lista[1] := 12.
+    lista[2] := 9.
+    lista[3] := 3.
+    lista[4] := 1.
     countsort(lista).
 
     ordenado := estaOrdenado(lista|contar(lista)).
