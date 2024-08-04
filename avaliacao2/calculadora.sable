@@ -1,0 +1,38 @@
+Package calculadora;
+
+Helpers
+ digito = ['0' .. '9'];
+ espaco = ' ';
+ rc = 13;
+ nl = 10;
+ letra_maiusc = ['a'..'z'];
+ letra_minusc = ['A'..'Z'];
+ quebra_linha = '\n';
+
+ 
+Tokens
+ numero = digito+;
+ soma = '+';
+ menos = '-';
+ mult = '*';
+ div = '/';
+ mod = '%';
+ par_esq = '(';
+ par_dir = ')';
+ booleano = 'verdadeiro' | 'falso';
+ enquanto = 'enquanto';
+ para_cada = 'para cada';
+ para = 'para';
+ retorne = 'retorne';
+ se = 'se';
+ senao = 'senao';
+ nao = 'nao';
+ e = 'e';
+ ou = 'ou';
+ vazio = (espaco | rc | nl)+;
+ caractere = letra_maiusc | letra_minusc | quebra_linha;
+
+
+Ignored Tokens
+ vazio;
+
