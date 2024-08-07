@@ -8,8 +8,10 @@ Helpers
  letra_maiusc = ['a'..'z'];
  letra_minusc = ['A'..'Z'];
  quebra_linha = '\n';
+ char_especial = ['À'..'ú'];
  identificadorhelper = (letra_maiusc | letra_minusc)(letra_maiusc | letra_minusc | digito | '_')+;
  qualquer_coisa = (identificadorhelper | espaco | '.' | digito | '+' | '-' | '*' | '/' | '=' | '>' | '<' | '>=' | '<=' | '(' | ')' | '->' | ':=' | ':')+;
+ comentario = (identificadorhelper | espaco | char_especial | '.' | digito | '+' | '-' | '*' | '/' | '=' | '>' | '<' | '>=' | '<=' | '(' | ')' | '->' | ':=' | ':' | ',')+;
  
 Tokens
  numero = digito+;
@@ -32,6 +34,7 @@ Tokens
  par_dir = ')';
  colchete_esq = '[';
  colchete_dir = ']';
+ aspas = '"';
  ponto = '.';
  iniciador = '->';
  atribuicao = ':=';
@@ -48,7 +51,8 @@ Tokens
  vazio = (espaco | rc | nl)+;
  caractere = letra_maiusc | letra_minusc | quebra_linha;
  identificador = identificadorhelper;
- comentario_linha = '#'qualquer_coisa;
+ comentario_linha = '#'comentario;
+ comentario_bloco = '{'comentario'}';
 
 
 Ignored Tokens
