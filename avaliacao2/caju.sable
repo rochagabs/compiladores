@@ -8,7 +8,7 @@ Helpers
  letra_maiusc = ['a'..'z'];
  letra_minusc = ['A'..'Z'];
  quebra_linha = '\n';
- char_especial = ['À'..'ú'];
+ char_especial = ['Ã€'..'Ãº'];
  identificadorhelper = (letra_maiusc | letra_minusc)(letra_maiusc | letra_minusc | digito | '_')+;
  qualquer_coisa = (identificadorhelper | espaco | '.' | digito | '+' | '-' | '*' | '/' | '=' | '>' | '<' | '>=' | '<=' | '(' | ')' | '->' | ':=' | ':')+;
  comentario = (identificadorhelper | espaco | char_especial | '.' | digito | '+' | '-' | '*' | '/' | '=' | '>' | '<' | '>=' | '<=' | '(' | ')' | '->' | ':=' | ':' | ',')+;
@@ -56,5 +56,7 @@ Tokens
 
 
 Ignored Tokens
+ comentario_linha,
+ comentario_bloco,
  vazio;
 
