@@ -9,7 +9,7 @@ Helpers
  letra_minusc = ['A'..'Z'];
  quebra_linha = '\n';
  char_especial = ['À'..'ú'];
- identificadorhelper = (letra_maiusc | letra_minusc)(letra_maiusc | letra_minusc | digito | '_')+;
+ identificadorhelper = (letra_maiusc | letra_minusc| '_')(letra_maiusc | letra_minusc | digito | '_')+;
  qualquer_coisa = (identificadorhelper | espaco | '.' | digito | '+' | '-' | '*' | '/' | '=' | '>' | '<' | '>=' | '<=' | '(' | ')' | '->' | ':=' | ':')+;
  comentario = (identificadorhelper | espaco | char_especial | '.' | digito | '+' | '-' | '*' | '/' | '=' | '>' | '<' | '>=' | '<=' | '(' | ')' | '->' | ':=' | ':' | ',')+;
  
