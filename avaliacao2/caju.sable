@@ -5,40 +5,6 @@ Helpers
  espaco = ' ';
  rc = 13;
  nl = 10;
- letra_maiusc = ['a'..'z'];
- letra_minusc = ['A'..'Z'];
- quebra_linha = '\n';
- char_especial = [[0 .. 8] + [11 .. 255]] ;
- letras = (letra_maiusc + letra_minusc);
- string_e_comentario = letras + char_especial;
- identificadorhelper = (letras | '_')(letras | digito | '_')+;
- comentario = (string_e_comentario | espaco)+;
- 
-Tokens
- numero = digito+;
- numero_decimal = digito+','digito+;
- string = '"'string_e_comentario+'"';
- soma = '+';
- menos = '-';
- mult = '*';
- div = '/';
- igual = '=';
- maior = '>';
- menor = '<';
- maior_igual = '>=';
- menor_igual = '<=';
- inicio = 'inicio';
- fim = 'fim';
- booleanoid = 'booleano';
- numeroid = 'numero';
- caractereid = 'caractere';
- vetorid = 'vetor';Package calculadora;
-
-Helpers
- digito = ['0' .. '9'];
- espaco = ' ';
- rc = 13;
- nl = 10;
  quebra_linha = [rc + nl];
  letra_maiusc = ['a'..'z'];
  letra_minusc = ['A'..'Z'];
@@ -100,34 +66,3 @@ Tokens
 Ignored Tokens
  vazio;
 
- 
- vazio = 'vazio';
- par_esq = '(';
- par_dir = ')';
- colchete_esq = '[';
- colchete_dir = ']';
- ponto = '.';
- ponto_e_virgula = ';';
- iniciador = '->';
- atribuicao = ':=';
- booleano = 'verdadeiro' | 'falso';
- enquanto = 'enquanto';
- para_cada = 'para cada';
- para = 'para';
- retorne = 'retorne';
- se = 'se';
- senao = 'senao';
- nao = 'nao';
- e = 'e';
- ou = 'ou';
- vazio2 = (espaco | rc | nl)+;
- identificador = identificadorhelper;
- caractere = letras | quebra_linha;
- comentario_linha = '#'comentario;
- comentario_bloco = '{'comentario'}';
-
-
-Ignored Tokens
- comentario_linha,
- comentario_bloco,
- vazio2;
