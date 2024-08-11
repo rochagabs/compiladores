@@ -32,7 +32,75 @@ Tokens
  booleanoid = 'booleano';
  numeroid = 'numero';
  caractereid = 'caractere';
+ vetorid = 'vetor';Package calculadora;
+
+Helpers
+ digito = ['0' .. '9'];
+ espaco = ' ';
+ rc = 13;
+ nl = 10;
+ quebra_linha = [rc + nl];
+ letra_maiusc = ['a'..'z'];
+ letra_minusc = ['A'..'Z'];
+ tudo = [0..0xffff];
+ tudo_sem_nl = [tudo - quebra_linha];
+ string_input = [tudo - ['''+'"']];
+ identificadorhelper = (letra_maiusc | letra_minusc)(letra_maiusc | letra_minusc | digito | '_')+;
+ qualquer_coisa = (identificadorhelper | espaco | '.' | digito | '+' | '-' | '*' | '/' | '=' | '>' | '<' | '>=' | '<=' | '(' | ')' | '->' | ':=' | ':')+;
+ comentario = [tudo - '{'];
+ 
+ 
+Tokens
+ numero = digito+;
+ soma = '+';
+ menos = '-';
+ mult = '*';
+ div = '/';
+ igual = '=';
+ maior = '>';
+ menor = '<';
+ maior_igual = '>=';
+ menor_igual = '<=';
+ inicio = 'inicio';
+ fim = 'fim';
+ booleanoid = 'booleano';
+ numeroid = 'numero';
+ caractereid = 'caractere';
  vetorid = 'vetor';
+ string = '"'string_input*'"';
+ char = '''string_input*''';
+ par_esq = '(';
+ par_dir = ')';
+ colchete_esq = '[';
+ colchete_dir = ']';
+ ponto = '.';
+ virgula = ',';
+ barra = '|';
+ ponto_e_virgula = ';';
+ iniciador = '->';
+ atribuicao = ':=';
+ dois_pontos = ':';
+ booleano = 'verdadeiro' | 'falso';
+ enquanto = 'enquanto';
+ para_cada = 'para cada';
+ para = 'para';
+ retorne = 'retorne';
+ se = 'se';
+ senao = 'senao';
+ nao = 'nao';
+ e = 'e';
+ ou = 'ou';
+ vazio = (espaco | rc | nl)+;
+ caractere = letra_maiusc | letra_minusc | quebra_linha;
+ identificador = identificadorhelper;
+ comentario_linha = '#'tudo_sem_nl*;
+ comentario_bloco = '{'comentario*'}';
+
+
+Ignored Tokens
+ vazio;
+
+ 
  vazio = 'vazio';
  par_esq = '(';
  par_dir = ')';
