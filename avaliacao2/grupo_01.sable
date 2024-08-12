@@ -35,7 +35,6 @@ Tokens
  caractereid = 'caractere';
  vetorid = 'vetor';
  string = '"'string_input*'"';
- char = '''string_input*''';
  par_esq = '(';
  par_dir = ')';
  colchete_esq = '[';
@@ -58,7 +57,7 @@ Tokens
  e = 'e';
  ou = 'ou';
  vazio = (espaco | rc | nl)+;
- caractere = letra_maiusc | letra_minusc | quebra_linha;
+ caractere = '''string_input''';
  identificador = identificadorhelper;
  comentario_linha = '#'tudo_sem_nl*;
  comentario_bloco = '{'comentario*'}';
