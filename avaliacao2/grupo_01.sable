@@ -1,4 +1,4 @@
-Package calculadora;
+Package caju;
 
 Helpers
  digito = ['0' .. '9'];
@@ -11,13 +11,14 @@ Helpers
  tudo = [0..0xffff];
  tudo_sem_nl = [tudo - quebra_linha];
  string_input = [tudo - ['''+'"']];
- identificadorhelper = (letra_maiusc | letra_minusc)(letra_maiusc | letra_minusc | digito | '_')+;
- qualquer_coisa = (identificadorhelper | espaco | '.' | digito | '+' | '-' | '*' | '/' | '=' | '>' | '<' | '>=' | '<=' | '(' | ')' | '->' | ':=' | ':')+;
+ identificadorhelper = (letra_maiusc | letra_minusc)(letra_maiusc | letra_minusc | digito | '_')*;
  comentario = [tudo - '{'];
+ digitos = digito+;
+ numero_real = '-'?digitos','digitos;
+ numero_inteiro = '-'?digitos;
  
- 
-Tokens
- numero = digito+;
+Tokens 
+ numero = (numero_real | numero_inteiro);
  soma = '+';
  menos = '-';
  mult = '*';
@@ -64,5 +65,6 @@ Tokens
 
 
 Ignored Tokens
+ comentario_linha,
+ comentario_bloco,
  vazio;
-
