@@ -6,8 +6,8 @@ Helpers
  rc = 13;
  nl = 10;
  quebra_linha = [rc + nl];
- letra_maiusc = ['a'..'z'];
- letra_minusc = ['A'..'Z'];
+ letra_minusc = ['a'..'z'];
+ letra_maiusc = ['A'..'Z'];
  tudo = [0..0xffff];
  tudo_sem_nl = [tudo - quebra_linha];
  string_input = [tudo - ['''+'"']];
@@ -34,6 +34,7 @@ Tokens
  numeroid = 'numero';
  caractereid = 'caractere';
  vetorid = 'vetor';
+ palavra_vazio = 'vazio';
  string = '"'string_input*'"';
  par_esq = '(';
  par_dir = ')';
@@ -57,7 +58,7 @@ Tokens
  e = 'e';
  ou = 'ou';
  vazio = (espaco | rc | nl)+;
- caractere = '''string_input''';
+ caractere = '''(string_input | '\'letra_minusc)''';
  identificador = identificadorhelper;
  comentario_linha = '#'tudo_sem_nl*;
  comentario_bloco = '{'comentario*'}';
