@@ -63,8 +63,12 @@ Tokens
  comentario_linha = '#'tudo_sem_nl*;
  comentario_bloco = '{'comentario*'}';
 
-
 Ignored Tokens
  comentario_linha,
  comentario_bloco,
  vazio;
+
+Productions
+ atribu = {identificador} identificador;
+ 
+ 
