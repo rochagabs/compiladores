@@ -17,11 +17,6 @@ public class Main
 					new Lexer(
 							new PushbackReader(  
 									new FileReader(arquivo), 1024)); 
-			Token token;
-			while(!((token = lexer.next()) instanceof EOF)) {
-				System.out.println(token.getClass());
-				System.out.println(" ( "+token.toString()+")");
-			}
 			
 			Parser parser = new Parser(lexer);
 			Start tree = parser.parse();
