@@ -1,9 +1,9 @@
-package calculadora;
+package caju;
 
-import calculadora.node.*;
-import calculadora.analysis.*;
-import calculadora.lexer.*;
-import calculadora.parser.*;
+import caju.node.*;
+import caju.analysis.*;
+import caju.lexer.*;
+import caju.parser.*;
 
 import java.io.PrintWriter;
 import java.io.PushbackReader;
