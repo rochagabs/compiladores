@@ -1,7 +1,7 @@
-package calculadora;
+package caju;
 
-import calculadora.node.*;
-import calculadora.analysis.*;
+import caju.node.*;
+import caju.analysis.*;
 
 public class ASTPrinter extends DepthFirstAdapter {
 	

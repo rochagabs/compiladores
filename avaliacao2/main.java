@@ -1,7 +1,7 @@
-package calculadora;
-import calculadora.parser.*;
-import calculadora.lexer.*;
-import calculadora.node.*;
+package caju;
+import caju.parser.*;
+import caju.lexer.*;
+import caju.node.*;
 import java.io.*;
 
 public class Main

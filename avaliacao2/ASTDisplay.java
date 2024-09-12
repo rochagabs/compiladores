@@ -1,4 +1,4 @@
-package calculadora;
+package caju;
 
 /*
  * NOTES
@@ -9,8 +9,8 @@ import java.util.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.tree.*;
-import calculadora.analysis.*;
-import calculadora.node.*;
+import caju.analysis.*;
+import caju.node.*;
 
 public class ASTDisplay extends DepthFirstAdapter
 {
