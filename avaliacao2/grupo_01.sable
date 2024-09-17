@@ -89,14 +89,18 @@ Productions
 	|{caractereid} caractereid
 	|{numeroid} numeroid;
  
- dec_funcao =
- 	 iniciador? tipo_retorno par_esq parametros par_dir bloco;
- 	 
+ dec_funcao = {com_iniciador} funcao_iniciador |{sem_iniciador} funcao_sem_iniciador;
+ 
+ funcao_iniciador =	iniciador tipo_retorno identificador par_esq parametros par_dir bloco;
+ 
+ funcao_sem_iniciador = tipo_retorno identificador par_esq parametros par_dir bloco;
+ 
  tipo_retorno = {tipo} tipo | {vazio} palavra_vazio;
  
  parametros =
- 	|{nada}
- 	|{parametro} parametro parametro_estrela*;
+ 	{nada}
+ 	|{um_parametro} parametro
+ 	|{varios_parametros} parametro parametro_estrela*; 
  
  parametro = tipo identificador;
  
@@ -109,10 +113,13 @@ Productions
  lista_atrib = atrib atrib_estrela*;
 
  atrib_estrela = virgula atrib;
- 
- comando = 
- 	 {se} se par_esq exp par_dir comando
- 	|{senao} se par_esq exp par_dir senao comando
+  
+ comando_raiz =
+ 	 {comando} comando
+ 	|{comando_sem_opcional} comando_sem_opcional; 
+  
+ comando =
+  	 {se} se par_esq exp par_dir [esq]:comando senao [dir]:comando
  	|{enquanto} enquanto par_esq exp par_dir comando
  	|{para} par_esq lista_atrib [esq]:ponto_e_virgula exp [dir]:ponto_e_virgula par_dir comando
  	|{para_cada} par_esq tipo identificador dois_pontos par_dir comando
@@ -121,33 +128,79 @@ Productions
  	|{bloco} bloco
  	|{chamada} chamada ponto;
  
+ comando_sem_opcional = 
+ 	 {se} se par_esq exp comando
+ 	|{senao} se par_esq exp par_dir comando senao comando_sem_opcional; 
+ 
  var = 
  	 {identificador} identificador
  	|{var} var colchete_esq exp colchete_dir;
  
  exp =
- 	 {numero} numero | {caractere} caractere | {booleano} booleano
- 	|{var} var
- 	|{par_exp} par_esq exp par_dir
+ 	 {var} var
  	|{chamada} chamada
- 	|{soma} [esq]:exp soma [dir]:exp
- 	|{menos} [esq]:exp menos [dir]:exp
- 	|{mult} [esq]:exp mult [dir]:exp
- 	|{div} [esq]:exp div [dir]:exp
- 	|{igual} [esq]:exp igual [dir]:exp
- 	|{menor_igual} [esq]:exp menor_igual [dir]:exp
- 	|{maior_igual} [esq]:exp maior_igual [dir]:exp
- 	|{menor} [esq]:exp soma [dir]:exp
- 	|{maior} [esq]:exp soma [dir]:exp
- 	|{nao} nao [dir]:exp
- 	|{e} [esq]:exp e [dir]:exp
- 	|{ou} [esq]:exp ou [dir]:exp;
-
+ 	|{nivel_zero} [esq]:exp prece_ou nivel_um |{nivel_um} nivel_um;
+ 
+ /*	dúvida
+ prece_virgula = barra;	
+ 
+ prece_atrib = atribuicao;	
+ */
+ 
+ //nivel 0
+ prece_ou = ou;
+ 
+ prece_e = e;
+ 
+ nivel_um = 
+ 	 {nivel_um} nivel_um prece_e nivel_dois 
+ 	|{nivel_dois} nivel_dois;
+ 
+ prece_igual = igual;
+ 
+ nivel_dois = 
+ 	 {nivel_dois} nivel_dois prece_igual nivel_tres 
+ 	|{nivel_tres} nivel_tres;
+ 
+ prece_maior_menor_igual = 
+ 	 {menor_igual} menor_igual
+ 	|{maior_igual} maior_igual
+ 	|{menor} menor
+ 	|{maior} maior;
+ 
+ nivel_tres = 
+ 	 {nivel_tres} nivel_tres prece_maior_menor_igual nivel_quatro 
+ 	|{nivel_quatro} nivel_quatro;
+ 
+ prece_soma_menos = {soma} soma | {menos} menos;
+ 
+ nivel_quatro = 
+ 	 {nivel_quatro} nivel_quatro prece_soma_menos nivel_cinco 
+ 	|{nivel_cinco} nivel_cinco;
+ 
+ prece_mult_div = {mult} mult | {div} div;
+ 
+ nivel_cinco = 
+ 	 {nivel_cinco} nivel_cinco prece_mult_div nivel_seis 
+ 	|{nivel_seis} nivel_seis;
+ 
+ prece_nao = nao;
+ 
+ nivel_seis = 
+ 	 {nivel_seis} prece_par_valor prece_nao nivel_seis 
+ 	|{prece_par_valor} prece_par_valor;
+ 
+ prece_par_valor = 
+ 	 {par_exp} par_esq exp par_dir
+ 	|{numero} numero 
+ 	|{caractere} caractere 
+ 	|{booleano} booleano;
+ 
  chamada = identificador par_esq lista_exp par_dir;
  
  lista_exp = 
  	|{nada}
- 	|{exp} exp ou_exp_estrela;
+ 	|{exp} exp ou_exp_estrela*;
  	
  ou_exp_estrela = barra exp; 
  
