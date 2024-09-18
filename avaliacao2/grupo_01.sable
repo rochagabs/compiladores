@@ -72,7 +72,7 @@ Productions
 
  programa = dec_variavel* dec_funcao*;
 
- dec_variavel = tipo_base lista_nomes ponto;
+ dec_variavel = tipo lista_nomes ponto;
  
  lista_nomes = 
  	 {identificadores} identificador virgula lista_nomes
@@ -88,18 +88,14 @@ Productions
  	 {booleanoid} booleanoid
 	|{caractereid} caractereid
 	|{numeroid} numeroid;
- 
- dec_funcao = {com_iniciador} funcao_iniciador |{sem_iniciador} funcao_sem_iniciador;
- 
- funcao_iniciador =	iniciador tipo_retorno identificador par_esq parametros par_dir bloco;
- 
- funcao_sem_iniciador = tipo_retorno identificador par_esq parametros par_dir bloco;
+	
+
+ dec_funcao = iniciador? tipo_base identificador par_esq parametros par_dir bloco;
  
  tipo_retorno = {tipo} tipo | {vazio} palavra_vazio;
  
  parametros =
  	{nada}
- 	|{um_parametro} parametro
  	|{varios_parametros} parametro parametro_estrela*; 
  
  parametro = tipo identificador;
@@ -114,13 +110,13 @@ Productions
 
  atrib_estrela = virgula atrib;
   
- comando_raiz =
+ /*comando_raiz =
  	 {comando} comando
- 	|{comando_sem_opcional} comando_sem_opcional; 
+ 	|{comando_sem_opcional} comando_sem_opcional; */
   
  comando =
-  	 {se} se par_esq exp par_dir [esq]:comando senao [dir]:comando
- 	|{enquanto} enquanto par_esq exp par_dir comando
+  	 //{se} se par_esq exp par_dir [esq]:comando senao [dir]:comando
+ 	{enquanto} enquanto par_esq exp par_dir comando
  	|{para} par_esq lista_atrib [esq]:ponto_e_virgula exp [dir]:ponto_e_virgula par_dir comando
  	|{para_cada} par_esq tipo identificador dois_pontos par_dir comando
  	|{atrib_ponto} atrib ponto
@@ -128,9 +124,9 @@ Productions
  	|{bloco} bloco
  	|{chamada} chamada ponto;
  
- comando_sem_opcional = 
+ /*comando_sem_opcional = 
  	 {se} se par_esq exp comando
- 	|{senao} se par_esq exp par_dir comando senao comando_sem_opcional; 
+ 	|{senao} se par_esq exp par_dir comando senao comando_sem_opcional; */
  
  var = 
  	 {identificador} identificador
@@ -139,7 +135,7 @@ Productions
  exp =
  	 {var} var
  	|{chamada} chamada
- 	|{nivel_zero} [esq]:exp prece_ou nivel_um |{nivel_um} nivel_um;
+ 	|{nivel_zero} exp prece_ou nivel_um |{nivel_um} nivel_um;
  
  /*	dúvida
  prece_virgula = barra;	
@@ -196,7 +192,7 @@ Productions
  	|{caractere} caractere 
  	|{booleano} booleano;
  
- chamada = identificador par_esq lista_exp par_dir;
+ chamada = identificador par_esq lista_exp par_dir ponto;
  
  lista_exp = 
  	|{nada}
