@@ -30,10 +30,10 @@ Tokens
  menor_igual = '<=';
  inicio = 'inicio';
  fim = 'fim';
- booleanoid = 'booleano';
- numeroid = 'numero';
- caractereid = 'caractere';
- vetorid = 'vetor';
+ booleano_palavra = 'booleano';
+ numero_palavra = 'numero';
+ caractere_palavra = 'caractere';
+ vetor_palavra = 'vetor';
  palavra_vazio = 'vazio';
  string = '"'string_input*'"';
  par_esq = '(';
@@ -70,25 +70,29 @@ Ignored Tokens
  vazio;
 
 Productions
-
+ 
+ //Produção inicial
  programa = dec_variavel* dec_funcao*;
 
+ //Declaração variável
  dec_variavel = tipo lista_nomes ponto;
  
+ //Define os identificadores das variáveis
  lista_nomes = 
  	 {identificadores} identificador virgula lista_nomes
  	|{identificador} identificador;
- 	
+ 
+ //Tipo das variáveis, que pode ser um tipo primitivo ou array
  tipo =
  	 {tipo_base} tipo_base
- 	|{vetor} vetorid tipo_base colchete_esq exp colchete_dir vetor_estrela*;
+ 	|{vetor} vetor_palavra tipo_base colchete_esq exp colchete_dir vetor_estrela*;
  
  vetor_estrela = colchete_esq exp colchete_dir;
  
  tipo_base = 
- 	 {booleanoid} booleanoid
-	|{caractereid} caractereid
-	|{numeroid} numeroid;
+ 	 {booleano_palavra} booleano_palavra
+	|{caractere_palavra} caractere_palavra
+	|{numero_palavra} numero_palavra;
 	
 
  dec_funcao = iniciador? tipo_retorno identificador par_esq parametros par_dir bloco;
@@ -138,12 +142,8 @@ Productions
  	|{chamada} chamada
  	|{nivel_zero} exp prece_ou nivel_um |{nivel_um} nivel_um;
  
- /*	dúvida
- prece_virgula = barra;	
- 
- prece_atrib = atribuicao;	
- */
- 
+ //prefixo prece significa "precedência" e quanto maior o nível maior a precedência
+
  //nivel 0
  prece_ou = ou;
  
@@ -201,5 +201,4 @@ Productions
  	|{exp} exp ou_exp_estrela*;
  	
  ou_exp_estrela = barra exp; 
- 
  
