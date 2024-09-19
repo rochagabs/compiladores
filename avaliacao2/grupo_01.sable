@@ -114,14 +114,21 @@ Productions
  lista_atrib = atrib atrib_estrela*;
 
  atrib_estrela = virgula atrib;
-  
- /*comando_raiz =
- 	 {comando} comando
- 	|{comando_sem_opcional} comando_sem_opcional; */
-  
+ 
  comando =
-  	 {se} se par_esq exp par_dir [esq]:comando senao [dir]:comando
- 	|{enquanto} enquanto par_esq exp par_dir comando
+ 	 {comando} comando_casam
+ 	|{comando_sem_opcional} comando_sem_casam; 
+  
+ comando_casam =
+  	 {se} se par_esq exp par_dir [esq]:comando_casam senao [dir]:comando_casam
+ 	|{outra} outra;
+ 
+ comando_sem_casam = 
+ 	 {se} se par_esq exp comando
+ 	|{senao} se par_esq exp par_dir comando_casam senao comando_sem_casam; 
+ 
+ outra = 
+ 	 {enquanto} enquanto par_esq exp par_dir comando
  	|{para} para par_esq [atrib_esq]:lista_atrib [esq]:ponto_e_virgula exp [dir]:ponto_e_virgula [atrib_dir]:lista_atrib par_dir comando
  	|{para_cada} para_cada par_esq tipo [esq]:identificador dois_pontos [dir]:identificador par_dir comando
  	|{atrib_ponto} atrib ponto
@@ -129,16 +136,13 @@ Productions
  	|{bloco} bloco
  	|{chamada} chamada ponto;
  
- /*comando_sem_opcional = 
- 	 {se} se par_esq exp comando
- 	|{senao} se par_esq exp par_dir comando senao comando_sem_opcional; */
- 
  var = 
  	 {identificador} identificador
  	|{var} var colchete_esq exp colchete_dir;
  
  exp =
  	 {var} var
+ 	|{igual} var igual nivel_um
  	|{chamada} chamada
  	|{nivel_zero} exp prece_ou nivel_um |{nivel_um} nivel_um;
  
