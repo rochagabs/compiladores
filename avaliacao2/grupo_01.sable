@@ -117,8 +117,8 @@ Productions
  comando =
   	 //{se} se par_esq exp par_dir [esq]:comando senao [dir]:comando
  	{enquanto} enquanto par_esq exp par_dir comando
- 	|{para} par_esq lista_atrib [esq]:ponto_e_virgula exp [dir]:ponto_e_virgula par_dir comando
- 	|{para_cada} par_esq tipo identificador dois_pontos par_dir comando
+ 	|{para} para par_esq lista_atrib [esq]:ponto_e_virgula exp [dir]:ponto_e_virgula par_dir comando
+ 	|{para_cada} para_cada par_esq tipo identificador dois_pontos par_dir comando
  	|{atrib_ponto} atrib ponto
  	|{retorne} retorne exp? ponto
  	|{bloco} bloco
