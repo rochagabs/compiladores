@@ -10,7 +10,7 @@ public class Main
  {
   try
   {
-   String arquivo = "teste/test.calc";
+   String arquivo = "teste/teste.calc";
   
    Lexer lex = new Lexer(
 		    new PushbackReader(  
