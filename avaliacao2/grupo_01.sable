@@ -63,6 +63,7 @@ Tokens
  comentario_linha = '#'tudo_sem_nl*;
  comentario_bloco = '{'comentario*'}';
 
+
 Ignored Tokens
  comentario_linha,
  comentario_bloco,
@@ -90,7 +91,7 @@ Productions
 	|{numeroid} numeroid;
 	
 
- dec_funcao = iniciador? tipo_base identificador par_esq parametros par_dir bloco;
+ dec_funcao = iniciador? tipo_retorno identificador par_esq parametros par_dir bloco;
  
  tipo_retorno = {tipo} tipo | {vazio} palavra_vazio;
  
@@ -115,10 +116,10 @@ Productions
  	|{comando_sem_opcional} comando_sem_opcional; */
   
  comando =
-  	 //{se} se par_esq exp par_dir [esq]:comando senao [dir]:comando
- 	{enquanto} enquanto par_esq exp par_dir comando
- 	|{para} para par_esq [eq]:lista_atrib [esq]:ponto_e_virgula exp [dir]:ponto_e_virgula [di]:lista_atrib par_dir comando
- 	|{para_cada} para_cada par_esq tipo identificador dois_pontos par_dir comando
+  	 {se} se par_esq exp par_dir [esq]:comando senao [dir]:comando
+ 	|{enquanto} enquanto par_esq exp par_dir comando
+ 	|{para} para par_esq [atrib_esq]:lista_atrib [esq]:ponto_e_virgula exp [dir]:ponto_e_virgula [atrib_dir]:lista_atrib par_dir comando
+ 	|{para_cada} para_cada par_esq tipo [esq]:identificador dois_pontos [dir]:identificador par_dir comando
  	|{atrib_ponto} atrib ponto
  	|{retorne} retorne exp? ponto
  	|{bloco} bloco
@@ -189,13 +190,14 @@ Productions
  prece_par_valor = 
  	 {par_exp} par_esq exp par_dir
  	|{numero} numero 
- 	|{caractere} caractere 
+ 	|{caractere} caractere
+ 	|{string} string
  	|{booleano} booleano;
  
  chamada = identificador par_esq lista_exp par_dir ponto;
  
  lista_exp = 
- 	|{nada}
+ 	{nada}
  	|{exp} exp ou_exp_estrela*;
  	
  ou_exp_estrela = barra exp; 
