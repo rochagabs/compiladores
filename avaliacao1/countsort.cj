@@ -26,11 +26,12 @@ inicio
 fim
 
 
-caractere estaOrdenado(vetor numero vet| numero tamanho)
+caractere estaOrdenado(vetor numero[10] vet| numero tamanho)
 inicio
     caractere ord.
+    numero i.
     ord := 's'.
-    para (numero i := 0; i < tamanho - 1; i+1)
+    para (i := 0; i < tamanho - 1; i := i+1)
     inicio
         se (vet[i] > vet[i+1])
         inicio
@@ -43,7 +44,7 @@ inicio
 fim
 
 
-numero contar(vetor numero vet)
+numero contar(vetor numero[10] vet)
 inicio
     numero t.
     t := 0.
@@ -56,48 +57,46 @@ inicio
 
 fim
 
-
-vazio countsort(vetor numero vet)
+vazio countsort(vetor numero[10] vet | numero tamanho)
 inicio
     {codigo
     para
     countsort}
+    vetor numero[tamanho] saida.
+    vetor numero[10] count.
+    numero i.
+    numero indice.
 
-    numero tamanho.
-    tamanho := contar(vet).
-    vetor saida[tamanho].
-    vetor count[10].
-
-    para (numero i := 0; i < tamanho; i+1 )
+    para (i := 0; i < tamanho; i := i+1 )
     inicio
         saida[i] := 0.
     fim 
 
-    para (numero i := 0; i < 10; i+1)
+    para (i := 0; i < 10; i := i+1)
     inicio
         count[i] := 0.
     fim
 
-    para (numero i := 0; i < tamanho; i+1)
+    para (i := 0; i < tamanho; i := i+1)
     inicio
         count[vet[i]] := count[vet[i]] + 1.
     fim
 
-    para (numero i := 1; i < 10; i+1)
+    para (i := 1; i < 10; i := i+1)
     inicio
-        count[i] := count[i] + count[i-1].
+        count[i] := count[i] + count[i - 1].
     fim
 
-    numero indice := tamanho - 1.
+    indice := tamanho - 1.
     enquanto(indice>=0)
     inicio
-        saida[count[vet[indice]]-1] := vet[indice].
+        saida[count[vet[indice]] - 1] := vet[indice].
         count[vet[indice]] := count[vet[indice]] - 1.
         indice := indice - 1.
 
     fim
 
-    para (numero i := 0; i < tamanho; i+1)
+    para (i := 0; i < tamanho; i := i+1)
     inicio
         vet[i] := saida[i].
     fim

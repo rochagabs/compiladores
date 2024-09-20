@@ -1,5 +1,3 @@
-
-
 -> vazio principal() inicio
     # Nome do código: Operações e Comparações em Caju
     numero numeroReal . # Variável número real
@@ -10,7 +8,7 @@
     numeroReal := 10,5.
 
     # Laço de repetição para
-    para (i := 0; i < 5; i+1) inicio
+    para (i := 0; i < 5; i := i+1) inicio
         exibir("Iteração " | i).
 
         # Operações com operadores

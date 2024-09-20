@@ -121,11 +121,11 @@ Productions
   
  comando_casam =
   	 {se} se par_esq exp par_dir [esq]:comando_casam senao [dir]:comando_casam
- 	|{outra} outra;
- 
+  	|{outra} outra;
+ 	 
  comando_sem_casam = 
- 	 {se} se par_esq exp par_dir comando
- 	|{senao} se par_esq exp par_dir comando_casam senao comando_sem_casam; 
+ 	 {se} se par_esq exp par_dir comando_casam;    
+ 
  
  outra = 
  	 {enquanto} enquanto par_esq exp par_dir comando
@@ -141,9 +141,7 @@ Productions
  	|{var} var colchete_esq exp colchete_dir;
  
  exp =
- 	 {var} var
- 	|{igual} var igual nivel_um
- 	|{chamada} chamada
+ 	 {chamada} chamada
  	|{nivel_zero} exp prece_ou nivel_um |{nivel_um} nivel_um;
  
  //prefixo prece significa "precedência" e quanto maior o nível maior a precedência
@@ -188,17 +186,18 @@ Productions
  prece_nao = nao;
  
  nivel_seis = 
- 	 {nivel_seis} prece_par_valor prece_nao nivel_seis 
+ 	 {nivel_seis} prece_nao nivel_seis 
  	|{prece_par_valor} prece_par_valor;
  
  prece_par_valor = 
  	 {par_exp} par_esq exp par_dir
+ 	|{var} var
  	|{numero} numero 
  	|{caractere} caractere
  	|{string} string
  	|{booleano} booleano;
  
- chamada = identificador par_esq lista_exp par_dir ponto;
+ chamada = identificador par_esq lista_exp par_dir;
  
  lista_exp = 
  	{nada}

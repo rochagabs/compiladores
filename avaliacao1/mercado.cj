@@ -1,18 +1,16 @@
-
-
-numero promocao_omo (vetor pedidos)
+numero promocao_omo (vetor numero[10] pedidos)
 inicio
     #PRODUTOS PARTICIPANTES - OMO: detergente, desinfetante, sabonete, tira manchas
     booleano detergente.
     booleano desinfetante.
     booleano sabonete.
     booleano tira_manchas.
+    numero cupons.
     detergente := falso.
     desinfetante := falso.
     sabonete := falso.
     tira_manchas := falso.
-    numero cupons.
-    cupons = 0.
+    cupons := 0.
     para cada (vetor caractere[15] item:pedidos)
     inicio
         se (item="detergente")
@@ -25,7 +23,7 @@ inicio
         fim
         senao se (item="sabonete")
         inicio
-            sabonete := verdadeiro
+            sabonete := verdadeiro.
         fim
         senao se (item="tira manchas")
         inicio
@@ -47,6 +45,7 @@ fim
 -> vazio principal ()
 inicio
     vetor caractere[6][15] pedidos.
+    numero resultado_cupons.
     pedidos[0]:= "sabao".
     pedidos[1]:= "sabonete". 
     pedidos[2]:="refrigerante".
@@ -54,7 +53,6 @@ inicio
     pedidos[4]:= "detergente".
     pedidos[5]:= "desinfetante".
     exibir ("quantidade de cupons: ").
-    numero resultado_cupons.
     resultado_cupons:= promocao_omo(pedidos).
     exibir(resultado_cupons).
 fim
