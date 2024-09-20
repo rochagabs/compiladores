@@ -114,7 +114,7 @@ Productions
  lista_atrib = atrib atrib_estrela*;
 
  atrib_estrela = virgula atrib;
- 
+  
  comando =
  	 {comando} comando_casam
  	|{comando_sem_opcional} comando_sem_casam; 
@@ -124,7 +124,7 @@ Productions
  	|{outra} outra;
  
  comando_sem_casam = 
- 	 {se} se par_esq exp comando
+ 	 {se} se par_esq exp par_dir comando
  	|{senao} se par_esq exp par_dir comando_casam senao comando_sem_casam; 
  
  outra = 
