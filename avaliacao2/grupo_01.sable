@@ -116,21 +116,24 @@ Productions
  atrib_estrela = virgula atrib;
   
  comando =
- 	 {comando} comando_casam
- 	|{comando_sem_opcional} comando_sem_casam; 
-  
- comando_casam =
-  	 {se} se par_esq exp par_dir [esq]:comando_casam senao [dir]:comando_casam
-  	|{outra} outra;
- 	 
- comando_sem_casam = 
- 	 {se} se par_esq exp par_dir comando_casam;    
+ 	 {comando_simples} comando_casado
+ 	|{comando_else} comando_nao_casado;
  
+ 
+ comando_casado = 
+ 	{se} se par_esq exp par_dir [esq]:comando_casado senao [dir]:comando_casado
+        |{outra} outra; 
+  
+ 
+ comando_nao_casado = 
+ 	{se} se par_esq exp par_dir comando
+       |{se_senao} se par_esq exp par_dir comando_casado senao comando_nao_casado;
+   
  
  outra = 
- 	 {enquanto} enquanto par_esq exp par_dir comando
- 	|{para} para par_esq [atrib_esq]:lista_atrib [esq]:ponto_e_virgula exp [dir]:ponto_e_virgula [atrib_dir]:lista_atrib par_dir comando
- 	|{para_cada} para_cada par_esq tipo [esq]:identificador dois_pontos [dir]:identificador par_dir comando
+ 	 {enquanto} enquanto par_esq exp par_dir comando_casado
+ 	|{para} para par_esq [atrib_esq]:lista_atrib [esq]:ponto_e_virgula exp [dir]:ponto_e_virgula [atrib_dir]:lista_atrib par_dir comando_casado
+ 	|{para_cada} para_cada par_esq tipo [esq]:identificador dois_pontos [dir]:identificador par_dir comando_casado
  	|{atrib_ponto} atrib ponto
  	|{retorne} retorne exp? ponto
  	|{bloco} bloco
@@ -141,8 +144,7 @@ Productions
  	|{var} var colchete_esq exp colchete_dir;
  
  exp =
- 	 {chamada} chamada
- 	|{nivel_zero} exp prece_ou nivel_um |{nivel_um} nivel_um;
+ 	{nivel_zero} exp prece_ou nivel_um |{nivel_um} nivel_um;
  
  //prefixo prece significa "precedência" e quanto maior o nível maior a precedência
 
@@ -195,7 +197,8 @@ Productions
  	|{numero} numero 
  	|{caractere} caractere
  	|{string} string
- 	|{booleano} booleano;
+ 	|{booleano} booleano
+ 	|{chamada} chamada;
  
  chamada = identificador par_esq lista_exp par_dir;
  
