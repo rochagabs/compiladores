@@ -127,7 +127,7 @@ Productions
  
  comando_nao_casado = 
  	{se} se par_esq exp par_dir comando
-        |{se_senao} se par_esq exp par_dir comando_casado senao comando_nao_casado;
+       |{se_senao} se par_esq exp par_dir comando_casado senao comando_nao_casado;
    
  
  outra = 
@@ -144,8 +144,7 @@ Productions
  	|{var} var colchete_esq exp colchete_dir;
  
  exp =
- 	 {chamada} chamada
- 	|{nivel_zero} exp prece_ou nivel_um |{nivel_um} nivel_um;
+ 	{nivel_zero} exp prece_ou nivel_um |{nivel_um} nivel_um;
  
  //prefixo prece significa "precedência" e quanto maior o nível maior a precedência
 
@@ -198,7 +197,8 @@ Productions
  	|{numero} numero 
  	|{caractere} caractere
  	|{string} string
- 	|{booleano} booleano;
+ 	|{booleano} booleano
+ 	|{chamada} chamada;
  
  chamada = identificador par_esq lista_exp par_dir;
  
