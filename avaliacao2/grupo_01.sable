@@ -73,14 +73,14 @@ Productions
  
  //Produção inicial
  programa {-> a_programa} =
- 		{programa} dec_variavel* dec_funcao* {-> New a_programa.a_programa(a_dec_variavel, a_dec_funcao)};
+ 		{programa} dec_variavel* dec_funcao* {-> New a_programa.a_programa(dec_variavel.a_dec_variavel, dec_funcao.a_dec_funcao)};
 
  //Declaração variável
- dec_variavel = tipo lista_nomes ponto;
+ dec_variavel {-> a_dec_variavel} = {declaracao} tipo lista_nomes ponto {-> New a_declaracao.declaracao(tipo.a_tipo, lista_nomes.a_lista_nomes)};
  
  //Define os identificadores das variáveis
- lista_nomes = 
- 	 {identificadores} identificador virgula lista_nomes
+ lista_nomes {-> a_lista_nomes} = 
+ 	 {identificadores} identificador virgula lista_nomes {-> New a_lista_nomes.identificadores(identificador, lista_nomes.a_lista_nomes)}
  	|{identificador} identificador;
  
  //Tipo das variáveis, que pode ser um tipo primitivo ou array
@@ -146,62 +146,49 @@ Productions
  	identificador {-> New a_var.identificador(identificador)}
  	|{var} p_var colchete_esq exp colchete_dir;
  
- exp =
- 	{nivel_zero} exp prece_ou nivel_um |{nivel_um} nivel_um;
+ exp {-> a_exp} =
+ 	{ou} [esq]:exp ou [dir]:nivel_um {-> New a_exp.ou(esq.a_exp, dir.a_exp)}
+   |{nivel_um} nivel_um {-> nivel_um.a_exp};
  
  //prefixo prece significa "precedência" e quanto maior o nível maior a precedência
-
- //nivel 0
- prece_ou = ou;
  
- prece_e = e;
+ nivel_um {-> a_exp} = 
+ 	 {e} [esq]:nivel_um e [dir]:nivel_dois {-> New a_exp.e(esq.a_exp, dir.a_exp)}
+ 	|{nivel_dois} nivel_dois {-> nivel_dois.a_exp};
  
- nivel_um = 
- 	 {nivel_um} nivel_um prece_e nivel_dois 
- 	|{nivel_dois} nivel_dois;
+ nivel_dois {-> a_exp} = 
+ 	 {igual} [esq]:nivel_dois igual [dir]:nivel_tres {-> New a_exp.igual(esq.a_exp, dir.a_exp)}
+ 	|{nivel_tres} nivel_tres {-> nivel_tres.a_exp};
  
- prece_igual = igual;
+ nivel_tres {-> a_exp} = 
+ 	 {menor} [esq]:nivel_tres menor [dir]:nivel_quatro {-> New a_exp.menor(esq.a_exp, dir.a_exp)}
+ 	|{maior} [esq]:nivel_tres maior [dir]:nivel_quatro {-> New a_exp.maior(esq.a_exp, dir.a_exp)}
+ 	|{menor_igual} [esq]:nivel_tres menor_igual [dir]:nivel_quatro {-> New a_exp.menor_igual(esq.a_exp, dir.a_exp)}
+ 	|{maior_igual} [esq]:nivel_tres maior_igual [dir]:nivel_quatro {-> New a_exp.maior_igual(esq.a_exp, dir.a_exp)}
+ 	|{nivel_quatro} nivel_quatro {-> nivel_quatro.a_exp};
  
- nivel_dois = 
- 	 {nivel_dois} nivel_dois prece_igual nivel_tres 
- 	|{nivel_tres} nivel_tres;
+ nivel_quatro {-> a_exp} = 
+ 	 {soma} [esq]:nivel_quatro soma [dir]:nivel_cinco {-> New a_exp.soma(esq.a_exp, dir.a_exp)}
+ 	|{menos} [esq]:nivel_quatro menos [dir]:nivel_cinco {-> New a_exp.menos(esq.a_exp, dir.a_exp)}
+ 	|{nivel_cinco} nivel_cinco {-> nivel_cinco.a_exp};
  
- prece_maior_menor_igual = 
- 	 {menor_igual} menor_igual
- 	|{maior_igual} maior_igual
- 	|{menor} menor
- 	|{maior} maior;
+ nivel_cinco {-> a_exp} = 
+ 	 {mult} [esq]:nivel_cinco mult [dir]:nivel_seis {-> New a_exp.mult(esq.a_exp, dir.a_exp)}
+ 	|{div} [esq]:nivel_cinco div [dir]:nivel_seis {-> New a_exp.div(esq.a_exp, dir.a_exp)}
+ 	|{nivel_seis} nivel_seis {-> nivel_seis.a_exp};
  
- nivel_tres = 
- 	 {nivel_tres} nivel_tres prece_maior_menor_igual nivel_quatro 
- 	|{nivel_quatro} nivel_quatro;
+ nivel_seis {-> a_exp} = 
+ 	 {nao} nao [dir]:nivel_seis {-> New a_exp.nao(dir.a_exp)}
+ 	|{nivel_sete} nivel_sete {-> nivel_sete.a_exp};
  
- prece_soma_menos = {soma} soma | {menos} menos;
- 
- nivel_quatro = 
- 	 {nivel_quatro} nivel_quatro prece_soma_menos nivel_cinco 
- 	|{nivel_cinco} nivel_cinco;
- 
- prece_mult_div = {mult} mult | {div} div;
- 
- nivel_cinco = 
- 	 {nivel_cinco} nivel_cinco prece_mult_div nivel_seis 
- 	|{nivel_seis} nivel_seis;
- 
- prece_nao = nao;
- 
- nivel_seis = 
- 	 {nivel_seis} prece_nao nivel_seis 
- 	|{prece_par_valor} prece_par_valor;
- 
- prece_par_valor = 
- 	 {par_exp} par_esq exp par_dir
- 	|{var} p_var
- 	|{numero} numero 
- 	|{caractere} caractere
- 	|{string} string
- 	|{booleano} booleano
- 	|{chamada} chamada;
+ nivel_sete {-> a_exp} = 
+ 	 {par_exp} par_esq exp par_dir {-> New a_exp.par_exp(exp.a_exp)}
+ 	|{var} p_var {-> New a_exp.p_var(p_var)}
+ 	|{numero} numero {-> New a_exp.numero(numero)}
+ 	|{caractere} caractere {-> New a_exp.caractere(caractere)}
+ 	|{string} string {-> New a_exp.string(string)}
+ 	|{booleano} booleano {-> New a_exp.booleano(booleano)}
+ 	|{chamada} chamada {-> New a_exp.chamada(chamada.a_chamada)};
  
  chamada = identificador par_esq lista_exp par_dir;
  
@@ -285,6 +272,10 @@ Productions
  	|{a_maior_igual} [esq]:a_exp [dir]:a_exp
  	|{a_e} [esq]:a_exp [dir]:a_exp
  	|{a_ou} [esq]:a_exp [dir]:a_exp
+ 	|{a_nao} [dir]:a_exp
+ 	|{a_chamada} a_chamada
+ 	|{a_par} a_exp
+ 	|{a_var} a_var
  	|{a_numero} numero
  	|{a_caractere} caractere
  	|{a_booleano} booleano
