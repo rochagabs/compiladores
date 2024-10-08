@@ -112,7 +112,7 @@ Productions
  
  bloco {-> a_bloco} = inicio dec_variavel* comando* fim {-> New a_bloco.bloco([dec_variavel.a_dec_variavel], [comando.a_comando])};
  
- atrib = var atribuicao exp;
+ atrib = p_var atribuicao exp;
  
  lista_atrib = atrib atrib_estrela*;
 
@@ -144,7 +144,7 @@ Productions
  
  p_var {-> a_var} = 
  	identificador {-> New a_var.identificador(identificador)}
- 	|{var} var colchete_esq exp colchete_dir;
+ 	|{var} p_var colchete_esq exp colchete_dir;
  
  exp =
  	{nivel_zero} exp prece_ou nivel_um |{nivel_um} nivel_um;
@@ -196,7 +196,7 @@ Productions
  
  prece_par_valor = 
  	 {par_exp} par_esq exp par_dir
- 	|{var} var
+ 	|{var} p_var
  	|{numero} numero 
  	|{caractere} caractere
  	|{string} string
@@ -221,43 +221,79 @@ Productions
  a_lista_nomes = {identificadores} identificador a_lista_nomes
  				|{identificador} identificador;
  				
- a_tipo = {tipo_base} tipo_base
- 		  |{vetor} vetor_palavra tipo_base vetor_estrela*;
+ a_tipo = {tipo_base} a_tipo_base
+ 		  |{vetor} vetor_palavra a_tipo_base a_vetor_estrela*;
+ 
+ a_vetor_estrela = colchete_esq a_exp colchete_dir;
  		  
- tipo_base = 
- 	 booleano_palavra
-	|caractere_palavra
-	|numero_palavra;
+ a_tipo_base = 
+ 	 {booleano} booleano_palavra
+	|{caractere} caractere_palavra
+	|{numero} numero_palavra;
 	
- a_dec_funcao = iniciador? tipo_retorno identificador parametros bloco;
+ a_dec_funcao = iniciador? a_tipo_retorno identificador a_parametros a_bloco;
  
  a_tipo_retorno = {tipo} a_tipo | {vazio} palavra_vazio;
  
  a_parametros = {nada}
- 		|{varios_parametros} parametro parametro_estrela*;
- 				
- a_bloco = a_dec_variavel* comando*;
+ 		|{varios_parametros} a_parametro a_parametro_estrela*;
  
- a_atrib = var atribuicao exp;
+ a_parametro = a_tipo identificador;
+ 
+ a_parametro_estrela = barra a_parametro;
+ 				
+ a_bloco = a_dec_variavel* a_comando*;
+ 
+ a_atrib = a_var atribuicao a_exp;
+ 
+ a_lista_atrib = a_atrib a_atrib_estrela*;
+
+ a_atrib_estrela = virgula a_atrib;
  
  a_comando_casado  = 
- 	{se} exp [esq]:a_comando_casado [dir]:comando_casado
-    |{outra} outra; 
+ 	 {se} a_exp [esq]:a_comando_casado [dir]:a_comando_casado
+    |{outra} a_outra; 
     
  a_comando_nao_casado = 
- 	{se} exp a_comando
-       |{se_senao} exp a_comando_casado a_comando_nao_casado;
+ 	 {se} a_exp a_comando
+    |{se_senao} a_exp a_comando_casado a_comando_nao_casado;
        
  a_comando = {comando_casado} a_comando_casado
  			|{comando_nao_casado} a_comando_nao_casado;
  			
+ a_outra = 
+ 	 {enquanto} enquanto par_esq a_exp par_dir a_comando_casado
+ 	|{para} para par_esq [atrib_esq]:a_lista_atrib [esq]:ponto_e_virgula a_exp [dir]:ponto_e_virgula [atrib_dir]:a_lista_atrib par_dir a_comando_casado
+ 	|{para_cada} para_cada par_esq a_tipo [esq]:identificador dois_pontos [dir]:identificador par_dir a_comando_casado
+ 	|{atrib_ponto} a_atrib ponto
+ 	|{retorne} retorne a_exp? ponto
+ 	|{bloco} a_bloco
+ 	|{chamada} a_chamada ponto;
+ 			
  a_var = {identificador} identificador
  		|{var} a_var a_exp;
  		
- a_exp = {nivel_zero} exp prece_ou nivel_um |{nivel_um} nivel_um;
+ a_exp = 
+ 	 {a_soma} [esq]:a_exp [dir]:a_exp
+ 	|{a_menos} [esq]:a_exp [dir]:a_exp
+ 	|{a_mult} [esq]:a_exp [dir]:a_exp
+ 	|{a_div} [esq]:a_exp [dir]:a_exp
+ 	|{a_igual} [esq]:a_exp [dir]:a_exp
+ 	|{a_menor} [esq]:a_exp [dir]:a_exp
+ 	|{a_maior} [esq]:a_exp [dir]:a_exp
+ 	|{a_menor_igual} [esq]:a_exp [dir]:a_exp
+ 	|{a_maior_igual} [esq]:a_exp [dir]:a_exp
+ 	|{a_e} [esq]:a_exp [dir]:a_exp
+ 	|{a_ou} [esq]:a_exp [dir]:a_exp
+ 	|{a_numero} numero
+ 	|{a_caractere} caractere
+ 	|{a_booleano} booleano
+ 	|{a_string} string;
  
  a_chamada = identificador a_lista_exp;
  
  a_lista_exp = {nada}
- 	|{exp} a_exp ou_exp_estrela*;
+ 	|{exp} a_exp a_ou_exp_estrela*;
+ 	
+ a_ou_exp_estrela = barra a_exp; 
  
