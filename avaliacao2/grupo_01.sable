@@ -73,78 +73,77 @@ Productions
  
  //Produção inicial
  programa {-> a_programa} =
- 		{programa} dec_variavel* dec_funcao* {-> New a_programa.a_programa(dec_variavel.a_dec_variavel, dec_funcao.a_dec_funcao)};
+ 		{programa} dec_variavel* dec_funcao* {-> New a_programa.a_programa([dec_variavel.a_dec_variavel], [dec_funcao.a_dec_funcao])};
 
  //Declaração variável
- dec_variavel {-> a_dec_variavel} = {declaracao} tipo lista_nomes ponto {-> New a_declaracao.declaracao(tipo.a_tipo, lista_nomes.a_lista_nomes)};
+ dec_variavel {-> a_dec_variavel} = {dec_variavel} tipo lista_nomes ponto {-> New a_dec_variavel.dec_variavel(tipo.a_tipo, lista_nomes.a_lista_nomes)};
  
  //Define os identificadores das variáveis
  lista_nomes {-> a_lista_nomes} = 
  	 {identificadores} identificador virgula lista_nomes {-> New a_lista_nomes.identificadores(identificador, lista_nomes.a_lista_nomes)}
- 	|{identificador} identificador;
+ 	|{identificador} identificador {-> New a_lista_nomes.identificador(identificador)};
  
  //Tipo das variáveis, que pode ser um tipo primitivo ou array
  tipo {-> a_tipo} =
  	 {tipo_base} tipo_base {-> New a_tipo.tipo_base(tipo_base.a_tipo_base)} //falta mudar a parte do exp
- 	|{vetor} vetor_palavra tipo_base colchete_esq exp colchete_dir vetor_estrela*	{-> New a_tipo.vetor(tipo_base.a_tipo_base, exp0.expr, [vetor_estrela.a_vetor_estrela])};
+ 	|{vetor} vetor_palavra tipo_base colchete_esq exp colchete_dir vetor_estrela*	{-> New a_tipo.vetor(tipo_base.a_tipo_base,exp.a_exp, [vetor_estrela.a_vetor_estrela])};
  	
- 
  vetor_estrela {->a_vetor_estrela} =  //mudar parte do exp
- 		{expressao} colchete_esq exp colchete_dir {->New a_vetor_estrela.expressao(exp0.exp)};
+ 		{expressao} colchete_esq exp colchete_dir {->New a_vetor_estrela.expressao(exp.a_exp)};
  
  tipo_base {-> a_tipo_base} = 
  	 {booleano_palavra} booleano_palavra {-> New a_tipo_base.booleano_palavra(booleano_palavra)}
 	|{caractere_palavra} caractere_palavra {-> New a_tipo_base.caractere_palavra(caractere_palavra)}
 	|{numero_palavra} numero_palavra {-> New a_tipo_base.numero_palavra(numero_palavra)};
 	
+ dec_funcao {-> a_dec_funcao} = 
+ 	{dec_funcao} iniciador? tipo_retorno identificador par_esq parametros par_dir bloco {-> New a_dec_funcao.dec_funcao(tipo_retorno.a_tipo_retorno ,identificador, parametros.a_parametros, bloco.a_bloco)};
+ 
+ tipo_retorno {-> a_tipo_retorno} = 
+ 	{tipo} tipo {-> New a_tipo_retorno.tipo(tipo.a_tipo)}
+   |{vazio} palavra_vazio {-> New a_tipo_retorno.vazio(palavra_vazio)};
+ 
+ parametros {-> a_parametros} =
+ 	 {parametros} parametro parametro_estrela* {-> New a_parametros.parametros(parametro.a_parametro, [parametro_estrela.a_parametro_estrela])}
+ 	|{nada} {-> New a_parametros.nada()};
+ 	
+ parametro {-> a_parametro} = {parametro} tipo identificador {-> New a_parametro.parametro(tipo.a_tipo, identificador)};
+ 
+ parametro_estrela {-> a_parametro_estrela} = {parametro_estrela} barra parametro {-> New a_parametro_estrela.parametro_estrela(parametro.a_parametro)};
+ 
+ bloco {-> a_bloco} = {bloco} inicio dec_variavel* comando* fim {-> New a_bloco.bloco([dec_variavel.a_dec_variavel], [comando.a_comando])};
+ 
+ atrib {-> a_atrib} = {atrib} p_var atribuicao exp {-> New a_atrib.atrib(p_var.a_var, exp.a_exp)};
+ 
+ lista_atrib {-> a_lista_atrib} = {lista_atrib} atrib atrib_estrela* {-> New a_lista_atrib.lista_atrib(atrib.a_atrib, [atrib_estrela.a_atrib_estrela])};
 
- dec_funcao = iniciador? tipo_retorno identificador par_esq parametros par_dir bloco;
- 
- tipo_retorno = {tipo} tipo | {vazio} palavra_vazio;
- 
- parametros =
- 	{nada}
- 	|{varios_parametros} parametro parametro_estrela*; 
- 
- parametro = tipo identificador;
- 
- parametro_estrela = barra parametro;
- 
- bloco {-> a_bloco} = inicio dec_variavel* comando* fim {-> New a_bloco.bloco([dec_variavel.a_dec_variavel], [comando.a_comando])};
- 
- atrib = p_var atribuicao exp;
- 
- lista_atrib = atrib atrib_estrela*;
-
- atrib_estrela = virgula atrib;
+ atrib_estrela {-> a_atrib_estrela} = {atrib_estrela} virgula atrib {-> New a_atrib_estrela.atrib_estrela(atrib.a_atrib)};
   
  comando {-> a_comando} =
  	 {comando_casado} comando_casado {-> New a_comando.comando_casado(comando_casado.a_comando_casado)}
  	|{comando_nao_casado} comando_nao_casado {-> New a_comando.comando_nao_casado(comando_nao_casado.a_comando_nao_casado)};
  
- 
  comando_casado {-> a_comando_casado} = 
- 	{se} se par_esq exp par_dir [esq]:comando_casado senao [dir]:comando_casado
-    |{outra} outra; 
-  
+ 	{se} se par_esq exp par_dir [esq]:comando_casado senao [dir]:comando_casado {-> New a_comando_casado.se(exp.a_exp, esq.a_comando_casado, dir.a_comando_casado)}
+    |{outra} outra {-> New a_comando_casado.outra(outra.a_outra)}; 
  
- comando_nao_casado = 
- 	{se} se par_esq exp par_dir comando
-       |{se_senao} se par_esq exp par_dir comando_casado senao comando_nao_casado;
+ comando_nao_casado {-> a_comando_nao_casado} = 
+ 	{se} se par_esq exp par_dir comando {-> New a_comando_nao_casado.se(exp.a_exp, comando.a_comando)}
+   |{se_senao} se par_esq exp par_dir comando_casado senao comando_nao_casado {-> New a_comando_nao_casado.se_senao(exp.a_exp, comando_casado.a_comando_casado, comando_nao_casado.a_comando_nao_casado)};
    
  
- outra = 
- 	 {enquanto} enquanto par_esq exp par_dir comando_casado
- 	|{para} para par_esq [atrib_esq]:lista_atrib [esq]:ponto_e_virgula exp [dir]:ponto_e_virgula [atrib_dir]:lista_atrib par_dir comando_casado
- 	|{para_cada} para_cada par_esq tipo [esq]:identificador dois_pontos [dir]:identificador par_dir comando_casado
- 	|{atrib_ponto} atrib ponto
- 	|{retorne} retorne exp? ponto
- 	|{bloco} bloco
- 	|{chamada} chamada ponto;
+ outra {-> a_outra} = 
+ 	 {enquanto} enquanto par_esq exp par_dir comando_casado {-> New a_outra.enquanto(exp.a_exp, comando_casado.a_comando_casado)}
+ 	|{para} para par_esq [atrib_esq]:lista_atrib [esq]:ponto_e_virgula exp [dir]:ponto_e_virgula [atrib_dir]:lista_atrib par_dir comando_casado {-> New a_outra.para(atrib_esq.a_lista_atrib, exp.a_exp, atrib_dir.a_lista_atrib, comando_casado.a_comando_casado)}
+ 	|{para_cada} para_cada par_esq tipo [esq]:identificador dois_pontos [dir]:identificador par_dir comando_casado {-> New a_outra.para_cada(tipo.a_tipo, comando_casado.a_comando_casado)}
+ 	|{atrib_ponto} atrib ponto {-> New a_outra.atrib_ponto(atrib.a_atrib)}
+ 	|{retorne} retorne exp? ponto {-> New a_outra.retorne(exp.a_exp)}
+ 	|{bloco} bloco {-> New a_outra.bloco(bloco.a_bloco)}
+ 	|{chamada} chamada ponto {-> New a_outra.chamada(chamada.a_chamada)};
  
  p_var {-> a_var} = 
  	identificador {-> New a_var.identificador(identificador)}
- 	|{var} p_var colchete_esq exp colchete_dir;
+ 	|{var} p_var colchete_esq exp colchete_dir {-> New a_var.var(p_var.a_var, exp.a_exp)};
  
  exp {-> a_exp} =
  	{ou} [esq]:exp ou [dir]:nivel_um {-> New a_exp.ou(esq.a_exp, dir.a_exp)}
@@ -182,60 +181,62 @@ Productions
  	|{nivel_sete} nivel_sete {-> nivel_sete.a_exp};
  
  nivel_sete {-> a_exp} = 
- 	 {par_exp} par_esq exp par_dir {-> New a_exp.par_exp(exp.a_exp)}
- 	|{var} p_var {-> New a_exp.p_var(p_var)}
+ 	 {par} par_esq exp par_dir {-> New a_exp.par(exp.a_exp)}
+ 	|{var} p_var {-> New a_exp.var(p_var.a_var)}
  	|{numero} numero {-> New a_exp.numero(numero)}
  	|{caractere} caractere {-> New a_exp.caractere(caractere)}
  	|{string} string {-> New a_exp.string(string)}
  	|{booleano} booleano {-> New a_exp.booleano(booleano)}
  	|{chamada} chamada {-> New a_exp.chamada(chamada.a_chamada)};
  
- chamada = identificador par_esq lista_exp par_dir;
+ chamada {-> a_chamada} = 
+ 	 {chamada} identificador par_esq lista_exp par_dir {-> New a_chamada.chamada(identificador, lista_exp.a_lista_exp)};
  
- lista_exp = 
- 	{nada}
- 	|{exp} exp ou_exp_estrela*;
+ lista_exp {-> a_lista_exp} = 
+ 	{nada} {-> New a_lista_exp.nada()}
+ 	|{exp} exp ou_exp_estrela* {-> New a_lista_exp.exp(exp.a_exp, [ou_exp_estrela.a_ou_exp_estrela])};
  	
- ou_exp_estrela = barra exp; 
+ ou_exp_estrela {-> a_ou_exp_estrela} = {ou_exp_estrela} barra exp {-> New a_ou_exp_estrela.ou_exp_estrela(exp.a_exp)}; 
  
  
  Abstract Syntax Tree
  
- a_programa = {ar_programa} a_dec_variavel* a_dec_funcao*;
+ a_programa = {a_programa} a_dec_variavel* a_dec_funcao*;
  
- a_dec_variavel = {ar_declaracoes} a_tipo a_lista_nomes;
+ a_dec_variavel = {dec_variavel} a_tipo a_lista_nomes;
  
  a_lista_nomes = {identificadores} identificador a_lista_nomes
  				|{identificador} identificador;
  				
  a_tipo = {tipo_base} a_tipo_base
- 		  |{vetor} vetor_palavra a_tipo_base a_vetor_estrela*;
+ 		  |{vetor} a_tipo_base a_exp a_vetor_estrela*;
  
- a_vetor_estrela = colchete_esq a_exp colchete_dir;
+ a_vetor_estrela = {expressao} a_exp ;
  		  
  a_tipo_base = 
- 	 {booleano} booleano_palavra
-	|{caractere} caractere_palavra
-	|{numero} numero_palavra;
+ 	 {booleano_palavra} booleano_palavra
+	|{caractere_palavra} caractere_palavra
+	|{numero_palavra} numero_palavra;
 	
- a_dec_funcao = iniciador? a_tipo_retorno identificador a_parametros a_bloco;
+ a_dec_funcao = {dec_funcao} a_tipo_retorno identificador a_parametros a_bloco;
  
  a_tipo_retorno = {tipo} a_tipo | {vazio} palavra_vazio;
  
- a_parametros = {nada}
- 		|{varios_parametros} a_parametro a_parametro_estrela*;
+ a_parametros = 
+ 	 {parametros} a_parametro a_parametro_estrela*
+ 	|{nada};
  
- a_parametro = a_tipo identificador;
+ a_parametro = {parametro} a_tipo identificador;
  
- a_parametro_estrela = barra a_parametro;
+ a_parametro_estrela = {parametro_estrela} a_parametro;
  				
- a_bloco = a_dec_variavel* a_comando*;
+ a_bloco = {bloco} a_dec_variavel* a_comando*;
  
- a_atrib = a_var atribuicao a_exp;
+ a_atrib = {atrib} a_var a_exp;
  
- a_lista_atrib = a_atrib a_atrib_estrela*;
+ a_lista_atrib = {lista_atrib} a_atrib a_atrib_estrela*;
 
- a_atrib_estrela = virgula a_atrib;
+ a_atrib_estrela = {atrib_estrela} a_atrib;
  
  a_comando_casado  = 
  	 {se} a_exp [esq]:a_comando_casado [dir]:a_comando_casado
@@ -249,42 +250,42 @@ Productions
  			|{comando_nao_casado} a_comando_nao_casado;
  			
  a_outra = 
- 	 {enquanto} enquanto par_esq a_exp par_dir a_comando_casado
- 	|{para} para par_esq [atrib_esq]:a_lista_atrib [esq]:ponto_e_virgula a_exp [dir]:ponto_e_virgula [atrib_dir]:a_lista_atrib par_dir a_comando_casado
- 	|{para_cada} para_cada par_esq a_tipo [esq]:identificador dois_pontos [dir]:identificador par_dir a_comando_casado
- 	|{atrib_ponto} a_atrib ponto
- 	|{retorne} retorne a_exp? ponto
+ 	 {enquanto}  a_exp a_comando_casado
+ 	|{para} [atrib_esq]:a_lista_atrib a_exp [atrib_dir]:a_lista_atrib a_comando_casado
+ 	|{para_cada} a_tipo a_comando_casado
+ 	|{atrib_ponto} a_atrib 
+ 	|{retorne} a_exp? 
  	|{bloco} a_bloco
- 	|{chamada} a_chamada ponto;
+ 	|{chamada} a_chamada ;
  			
  a_var = {identificador} identificador
  		|{var} a_var a_exp;
  		
  a_exp = 
- 	 {a_soma} [esq]:a_exp [dir]:a_exp
- 	|{a_menos} [esq]:a_exp [dir]:a_exp
- 	|{a_mult} [esq]:a_exp [dir]:a_exp
- 	|{a_div} [esq]:a_exp [dir]:a_exp
- 	|{a_igual} [esq]:a_exp [dir]:a_exp
- 	|{a_menor} [esq]:a_exp [dir]:a_exp
- 	|{a_maior} [esq]:a_exp [dir]:a_exp
- 	|{a_menor_igual} [esq]:a_exp [dir]:a_exp
- 	|{a_maior_igual} [esq]:a_exp [dir]:a_exp
- 	|{a_e} [esq]:a_exp [dir]:a_exp
- 	|{a_ou} [esq]:a_exp [dir]:a_exp
- 	|{a_nao} [dir]:a_exp
- 	|{a_chamada} a_chamada
- 	|{a_par} a_exp
- 	|{a_var} a_var
- 	|{a_numero} numero
- 	|{a_caractere} caractere
- 	|{a_booleano} booleano
- 	|{a_string} string;
+ 	 {soma} [esq]:a_exp [dir]:a_exp
+ 	|{menos} [esq]:a_exp [dir]:a_exp
+ 	|{mult} [esq]:a_exp [dir]:a_exp
+ 	|{div} [esq]:a_exp [dir]:a_exp
+ 	|{igual} [esq]:a_exp [dir]:a_exp
+ 	|{menor} [esq]:a_exp [dir]:a_exp
+ 	|{maior} [esq]:a_exp [dir]:a_exp
+ 	|{menor_igual} [esq]:a_exp [dir]:a_exp
+ 	|{maior_igual} [esq]:a_exp [dir]:a_exp
+ 	|{e} [esq]:a_exp [dir]:a_exp
+ 	|{ou} [esq]:a_exp [dir]:a_exp
+ 	|{nao} [dir]:a_exp
+ 	|{chamada} a_chamada
+ 	|{par} a_exp
+ 	|{var} a_var
+ 	|{numero} numero
+ 	|{caractere} caractere
+ 	|{booleano} booleano
+ 	|{string} string;
+ 	
+ a_chamada = {chamada} identificador a_lista_exp;
  
- a_chamada = identificador a_lista_exp;
- 
- a_lista_exp = {nada}
+ a_lista_exp = {nada} 
  	|{exp} a_exp a_ou_exp_estrela*;
  	
- a_ou_exp_estrela = barra a_exp; 
+ a_ou_exp_estrela = {ou_exp_estrela} a_exp; 
  
