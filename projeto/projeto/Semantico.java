@@ -46,14 +46,14 @@ public class Semantico extends DepthFirstAdapter{
 		 System.out.println("Parametros: " + node.getAParametros());
 		 
 		 System.out.print("Nomes da função: ");
-		 List<TIdentificador> copy = new ArrayList<TIdentificador>();
-		 copy.add(node.getIdentificador());
+		 List<TIdentificador> ids = new ArrayList<TIdentificador>();
+		 ids.add(node.getIdentificador());
 		 
-		 for(TIdentificador e : copy) {
+		 for(TIdentificador e : ids) {
 			 System.out.println(e.toString());
 		 }
 		 System.out.println("O que fazer na tabela de símbolos: " + node.getIdentificador());
-		 for(TIdentificador e : copy)
+		 for(TIdentificador e : ids)
          {
              System.out.println("-->Inserir ( "+ e.toString()+", "+node.getATipoRetorno()+")");
          }
