@@ -52,7 +52,7 @@ public class Semantico extends DepthFirstAdapter{
 		 for(TIdentificador e : ids) {
 			 System.out.println(e.toString());
 		 }
-		 System.out.println("O que fazer na tabela de símbolos: " + node.getIdentificador());
+		 System.out.println("O que fazer na tabela de símbolos:");
 		 for(TIdentificador e : ids)
          {
              System.out.println("-->Inserir ( "+ e.toString()+", "+node.getATipoRetorno()+")");
